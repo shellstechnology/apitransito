@@ -15,7 +15,7 @@ use App\Http\Controllers\transitoController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('inicio');
 });
 
-Route::post('/transito', [transitoController::class, 'buscarLotesChofer']);
+Route::post('/transito', [transitoController::class, 'buscarLotesChofer'])->name('transito.buscarLotesChofer');;

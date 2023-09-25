@@ -12,8 +12,9 @@ class transitoControllerTest extends TestCase
         $response = $this->post('/transito', [
             "id_usuario" => 1,
         ]);
-        echo $response->getContent();
         $response->assertStatus(200);
     }
+
+   
     
 }
