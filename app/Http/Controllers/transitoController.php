@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Camion_Lleva_Lote;
-use App\Models\Choferes;
 use App\Models\Estados_p;
 use App\Models\Lugares_Entrega;
-use App\Models\Usuarios;
-use App\Models\Lotes;
 use App\Models\Paquete_Contiene_Lote;
 use App\Models\Paquetes;
-use App\Models\Camiones;
 use App\Models\Chofer_Conduce_Camion;
 
 use Illuminate\Http\Request;
