@@ -16,18 +16,13 @@ class transitoController extends Controller
 {
     public function buscarLotesChofer(Request $request)
     {
-        $listaChoferesMatricula = [];
-        $choferes = Chofer_Conduce_Camion::withoutTrashed()->where('id_chofer', $request->input('id_usuario'))->get();
-        if ($choferes->isNotEmpty()) {
-            foreach ($choferes as $chofer) {
-                $listaChoferesMatricula[] = [
-                    'chofer' => $chofer->id_chofer,
-                    'matricula' => $chofer->matricula_camion,
-                ];
-                $this->buscarLote($chofer->matricula_camion);
-            }
+        $listaCamionesLote=[];
+        $choferes = Chofer_Conduce_Camion::withoutTrashed()->where('id_chofer', $request->input('id_usuario'))->first();
+        if ($choferes!=null) {
+               $listaCamionesLote=$this->buscarLote($choferes['matricula_camion']);
         }
-        return view('inicio');
+        return $listaCamionesLote;
+    
     }
 
 
@@ -37,33 +32,22 @@ class transitoController extends Controller
         $lotes = Camion_Lleva_Lote::where('matricula', $matricula)->get();
         if ($lotes->isNotEmpty()) {
             foreach ($lotes as $lote) {
-                $listaCamionesLote[] = [
-                    'lote' => $lote->id_lote,
-                    'matricula' => $lote->matricula_camion,
-                ];
-                $this->paqueteEnLote($lote->id_lote);
+                $listaCamionesLote[] = $this->paqueteEnLote($lote->id_lote);
             }
-            return response()->json(['message' => 'Camion encontrado', 'data' => $listaCamionesLote]);
+            return $listaCamionesLote;
         }
         return response()->json(['message' => 'No hay ningún camion con esa matricula']);
     }
 
     public function paqueteEnLote($idLote)
     {
-        $listaPaquetesLote = [];
         $listaPaquete = [];
         $paquetes = Paquete_Contiene_Lote::withoutTrashed()->where('id_lote', $idLote)->get();
         if ($paquetes->isNotEmpty()) {
             foreach ($paquetes as $paquete) {
-                $listaPaquetesLote[] = [
-                    'nombre' => $paquete->nombre,
-                    'estado' => $paquete->id_estado_p,
-                ];
-
                 $listaPaquete[] = $this->buscarPaquete($paquete->id_paquete);
             }
-            Session::put('datos',$listaPaquete);
-            return response()->json(['message' => 'Paquete encontrado', 'data' => $listaPaquetesLote]);
+            return $listaPaquete;
         }
         return response()->json(['message' => 'No hay ningún paquete en ese lote']);
     }

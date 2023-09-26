@@ -15,7 +15,7 @@ use App\Http\Controllers\transitoController;
 */
 
 Route::get('/', function () {
-    return view('inicio');
+    return view('welcome');
 });
 
 
