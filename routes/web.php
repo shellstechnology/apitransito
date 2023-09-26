@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('inicio');
 });
 
-Route::post('/transito', [transitoController::class, 'buscarLotesChofer'])->name('transito.buscarLotesChofer');;
+
