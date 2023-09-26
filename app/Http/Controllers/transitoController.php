@@ -8,21 +8,18 @@ use App\Models\Lugares_Entrega;
 use App\Models\Paquete_Contiene_Lote;
 use App\Models\Paquetes;
 use App\Models\Chofer_Conduce_Camion;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class transitoController extends Controller
 {
     public function buscarLotesChofer(Request $request)
     {
         $listaCamionesLote=[];
-        $choferes = Chofer_Conduce_Camion::withoutTrashed()->where('id_chofer', $request->input('id_usuario'))->first();
+        $choferes = Chofer_Conduce_Camion::withoutTrashed()->where('id_chofer', $request-> post('id_usuario'))->first();
         if ($choferes!=null) {
                $listaCamionesLote=$this->buscarLote($choferes['matricula_camion']);
         }
         return $listaCamionesLote;
-    
     }
 
 
