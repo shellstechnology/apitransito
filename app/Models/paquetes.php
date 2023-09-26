@@ -9,6 +9,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 class Paquetes extends Model
 {
     protected $table = 'paquetes';
+    protected $fillable =['id_estado_p'];
     use HasFactory;
     use SoftDeletes;
     use ValidatesRequests;

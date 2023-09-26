@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/ruta', [transitoController::class, 'buscarLotesChofer'])->name('transito.buscarLotesChofer');
-Route::put('/paquete',[cambiarEstadoPaqueteController::class, 'buscarPaquete']) ->name('transito.cambiarEstadoPaquete');
+Route::post('/paquete',[cambiarEstadoPaqueteController::class, 'buscarPaquete']) ->name('transito.cambiarEstadoPaquete');

@@ -9,12 +9,17 @@ use App\Models\Paquete_Contiene_Lote;
 use App\Models\Paquetes;
 use App\Models\Chofer_Conduce_Camion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class transitoController extends Controller
 {
     public function buscarLotesChofer(Request $request)
     {
         $listaCamionesLote=[];
+        $validador = $this->validarDatos($request->all());
+        if ($validador->fails()) {
+            return;
+        }
         $choferes = Chofer_Conduce_Camion::withoutTrashed()->where('id_chofer', $request-> post('id_usuario'))->first();
         if ($choferes!=null) {
                $listaCamionesLote=$this->buscarLote($choferes['matricula_camion']);
@@ -100,5 +105,16 @@ class transitoController extends Controller
     {
         $estado = Estados_p::where('id', $idEstado)->first();
         return $estado['descripcion_estado_p'];
+    }
+
+    private function validarDatos($request)
+    {
+
+        $reglas = [
+            'id' => 'required|integer',
+        ];
+        return Validator::make([
+            'id' => $request['id_usuario'],
+        ], $reglas);
     }
 }
