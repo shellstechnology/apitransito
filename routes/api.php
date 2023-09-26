@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\transitoController;
+use App\Http\Controllers\cambiarEstadoPaqueteController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,4 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/ruta', [transitoController::class, 'buscarLotesChofer'])->name('transito.buscarLotesChofer');;
+Route::post('/ruta', [transitoController::class, 'buscarLotesChofer'])->name('transito.buscarLotesChofer');
+Route::put('/paquete',[cambiarEstadoPaqueteController::class, 'buscarPaquete']) ->name('transito.cambiarEstadoPaquete');
