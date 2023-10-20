@@ -1,0 +1,41 @@
+name: Laravel
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_DATABSE: fast_tracker_db
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        ports:
+          - 3306:3306
+
+    steps:
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: "8.2"
+      - uses: actions/checkout@v3
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Install Dependencies
+        run: composer install
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Create Database
+        env:
+          DB_HOST: mysql
+        run: mysql -u root -p fast_tracker_db < fast_tracker_db v1.3.sql
+      - name: Seed Database
+        env:
+          DB_HOST: mysql
+        run: php artisan db:seed
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DB_HOST: mysql
+        run: php artisan test
