@@ -29,9 +29,9 @@ class DatabaseSeeder extends Seeder
         $this->call(CamionesSeeder::class);
         $this->call(Camion_Lleva_LoteSeeder::class);
         $this->call(UsuariosSeeder::class);
-        $this->call(telefonos_usuariosSeeder::class);
-        $this->call(mail_UsuariosSeeder::class);
+        $this->call(Telefonos_UsuariosSeeder::class);
+        $this->call(Mail_UsuariosSeeder::class);
         $this->call(ChoferesSeeder::class);
-        $this->call(chofer_conduce_camionSeeder::class);
+        $this->call(Chofer_Conduce_CamionSeeder::class);
     }
 }
