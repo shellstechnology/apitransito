@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Estados_p;
-use App\Models\Paquetes;
+use App\Models\estados_p;
+use App\Models\paquetes;
 use Illuminate\Support\Facades\Validator;
 
 class cambiarEstadoPaqueteController extends Controller
