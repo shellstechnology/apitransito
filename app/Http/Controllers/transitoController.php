@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Camion_Lleva_Lote;
+use App\Models\camion_lleva_lote;
 use App\Models\estados_p;
 use App\Models\lugares_entrega;
 use App\Models\paquete_contiene_lote;
