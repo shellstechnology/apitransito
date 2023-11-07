@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Camion_Lleva_Lote;
+use App\Models\Camiones;
 use App\Models\Estados_p;
 use App\Models\Lugares_Entrega;
 use App\Models\Paquete_Contiene_Lote;
@@ -13,16 +14,28 @@ use Illuminate\Support\Facades\Validator;
 
 class transitoController extends Controller
 {
+
+    public function obtenerCamiones()
+    {
+        $matriculas = Camiones::pluck('matricula');
+        return $matriculas;
+    }
+
+    public function obtenerChofer(Request $request)
+    {
+        $chofer=Chofer_Conduce_Camion::where('matricula_camion',$request->input('matricula'))->first();
+        return $chofer['id_chofer'];
+    }
     public function buscarLotesChofer(Request $request)
     {
-        $listaCamionesLote=[];
+        $listaCamionesLote = [];
         $validador = $this->validarDatos($request->all());
         if ($validador->fails()) {
             return;
         }
-        $choferes = Chofer_Conduce_Camion::withoutTrashed()->where('id_chofer', $request-> post('id_usuario'))->first();
-        if ($choferes!=null) {
-               $listaCamionesLote=$this->buscarLote($choferes['matricula_camion']);
+        $choferes = Chofer_Conduce_Camion::withoutTrashed()->where('id_chofer', $request->post('id_usuario'))->first();
+        if ($choferes != null) {
+            $listaCamionesLote = $this->buscarLote($choferes['matricula_camion']);
         }
         return $listaCamionesLote;
     }
@@ -66,7 +79,7 @@ class transitoController extends Controller
                     'paquete' => $paquete->id_paquete,
                     'estado' => $paquete->id_estado_p
                 ];
-                $datosPaquete= $this->direccionPaquete($paquete->id_lugar_entrega, $listaPaquetes);
+                $datosPaquete = $this->direccionPaquete($paquete->id_lugar_entrega, $listaPaquetes);
                 return $datosPaquete;
             }
         }
@@ -85,7 +98,7 @@ class transitoController extends Controller
             $datosPaquete = $this->definirPaquete($listaDirecciones, $listaPaquetes);
             return $datosPaquete;
         }
-        return null; 
+        return null;
     }
 
 
