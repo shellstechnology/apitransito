@@ -20,10 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/ruta', [transitoController::class, 'buscarLotesChofer'])->name('transito.buscarLotesChofer');
-Route::post('/paquete',[cambiarEstadoPaqueteController::class, 'buscarPaquete']) ->name('transito.cambiarEstadoPaquete')->middleware(Autenticacion::class);
+Route::post('/paquete',[cambiarEstadoPaqueteController::class, 'buscarPaquete'])->name('transito.cambiarEstadoPaquete')->middleware(Autenticacion::class);
 Route::get('/ruta', [transitoController::class, 'obtenerCamiones'])->name('transito.obtenerCamiones');
 Route::get('/chofer', [transitoController::class, 'obtenerChofer'])->name('transito.obtenerChofer')->middleware(Autenticacion::class);
 Route::post('/ruta', [transitoController::class, 'buscarLotesChofer'])->name('transito.buscarLotesChofer')->middleware(Autenticacion::class);
 
 
-Route::get('/paquetes',[cambiarEstadoPaqueteController::class, 'obtenerEstadosPaquete']);
+Route::get('/paquetes/{d}',[cambiarEstadoPaqueteController::class, 'obtenerEstadosPaquete']);

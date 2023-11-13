@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Camion_Lleva_Lote;
 use App\Models\Caracteristicas;
+use App\Models\Chofer_Conduce_Camion;
 use App\Models\Lugares_Entrega;
+use App\Models\Paquete_Contiene_Lote;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Models\Estados_p;
@@ -13,12 +16,23 @@ use Illuminate\Support\Facades\Validator;
 class cambiarEstadoPaqueteController extends Controller
 {
 
-    public function obtenerEstadosPaquete()
+    public function obtenerEstadosPaquete($userId)
     {
-        $datoPaquete = Paquetes::withTrashed()->get();
+        $camion = Chofer_Conduce_Camion::withTrashed()->where('id_chofer', $userId)->first();
         $infoPaquete = [];
-        foreach ($datoPaquete as $dato) {
-            $infoPaquete[] = $this->obtenerPaquetes($dato);
+        if ($camion) {
+            $lotes = Camion_Lleva_Lote::where('matricula', $camion['matricula_camion'])->get();
+            if ($lotes->count() > 0) {
+                foreach ($lotes as $lote) {
+                    $paquetesLote = Paquete_Contiene_Lote::where('id_lote', $lote['id_lote'])->get();
+                    foreach ($paquetesLote as $paqueteLote) {
+                        $datoPaquete = Paquetes::withTrashed()->where('id',$paqueteLote['id_paquete'])->get();
+                        foreach ($datoPaquete as $dato) {
+                            $infoPaquete[] = $this->obtenerPaquetes($dato);
+                        }
+                    }
+                }
+            }
         }
         $descripcionEstados = Estados_p::pluck('descripcion_estado_p');
         return [$infoPaquete, $descripcionEstados];
