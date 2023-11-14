@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Camion_Lleva_Lote;
-use App\Models\Camiones;
-use App\Models\Estados_p;
-use App\Models\Lugares_Entrega;
-use App\Models\Paquete_Contiene_Lote;
-use App\Models\Paquetes;
-use App\Models\Chofer_Conduce_Camion;
+use App\Models\camion_lleva_lote;
+use App\Models\camiones;
+use App\Models\estados_p;
+use App\Models\lugares_entrega;
+use App\Models\paquete_contiene_lote;
+use App\Models\paquetes;
+use App\Models\chofer_conduce_camion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
