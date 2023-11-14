@@ -27,7 +27,7 @@ class TransitoTest extends TestCase
         $response->assertStatus(200);
     }
 
-/** @test */
+/** @test soy un mensaje para que se ejecuten las actions */
     public function test_BuscarUnIdQueExiste(){
         $user = User::factory()->create();
         $this->withoutMiddleware();
