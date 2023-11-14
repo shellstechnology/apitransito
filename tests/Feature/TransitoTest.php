@@ -11,7 +11,7 @@ use App\Models\Lugares_Entrega;
 use App\Models\Paquete_Contiene_Lote;
 use App\Models\Paquetes;
 use App\Models\Chofer_Conduce_Camion;
-
+use App\Models\User;
 
 class TransitoTest extends TestCase
 {
@@ -29,8 +29,9 @@ class TransitoTest extends TestCase
 
 /** @test */
     public function test_BuscarUnIdQueExiste(){
-        
-        $response = $this->followingRedirects()->post('api/ruta',
+        $user = User::factory()->create();
+        $this->withoutMiddleware();
+        $response = $this->followingRedirects()->actingAs($user)->post('api/ruta',
         [
             "id_usuario"=>  "42",
         ]);
@@ -38,6 +39,7 @@ class TransitoTest extends TestCase
         $response->assertJsonFragment([
             "Paquete" => "paquete a modificar"
         ]);
+        $this->withMiddleware();
        }
 
 }

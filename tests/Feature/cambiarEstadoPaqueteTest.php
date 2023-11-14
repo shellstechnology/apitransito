@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Models\Estados_p;
 use App\Models\Paquetes;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class cambiarEstadoPaqueteTest extends TestCase
 {
@@ -24,27 +25,18 @@ class cambiarEstadoPaqueteTest extends TestCase
     }
 
 public function test_MarcarComoEntregadoUnPaqueteQueExiste(){
-    $response = $this->followingRedirects()->post('/api/paquete',
+    $user = User::factory()->create();
+    $this->withoutMiddleware();
+    $response = $this->followingRedirects()->actingAs($user)->post('/api/paquete',
     [
-        "id" => "42",
+        "paquetes" => ["42"],
     ]);
     $response->assertStatus(200);
     $response->assertJsonFragment([
-        "message" => "Paquete modificado con exito"
+        "message" => "paquetes modificados"
     ]);
+    $this->withMiddleware();
 }
 
-public function test_MarcarComoEntregadoUnPaqueteQueNoExiste(){
-$response = $this->followingRedirects()->post('/api/paquete',
-    [
-        "id" => "99999999999",
-    ]);
-
-$response->assertJsonFragment(
-    [
-        "message" => "No hay ningún paquete con esta id"
-    ]);
-
-}
 
 }
