@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Camion_Lleva_Lote;
+use App\Models\camion_lleva_lote;
 use App\Models\Caracteristicas;
-use App\Models\Chofer_Conduce_Camion;
-use App\Models\Lugares_Entrega;
-use App\Models\Paquete_Contiene_Lote;
+use App\Models\chofer_conduce_camion;
+use App\Models\lugares_entrega;
+use App\Models\paquete_contiene_lote;
 use App\Models\Producto;
 use Illuminate\Http\Request;
-use App\Models\Estados_p;
-use App\Models\Paquetes;
+use App\Models\estados_p;
+use App\Models\paquetes;
 use Illuminate\Support\Facades\Validator;
 
 class cambiarEstadoPaqueteController extends Controller
