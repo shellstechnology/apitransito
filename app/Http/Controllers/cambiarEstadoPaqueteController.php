@@ -76,6 +76,7 @@ class cambiarEstadoPaqueteController extends Controller
 
     public function buscarPaquete(Request $request)
     {
+        $this->reiniciarEstadosPaquetes($request);
         $paquetes = $request->post('paquetes');
         foreach ($paquetes as $paqueteSeleccionado) {
             $validador = $this->validarDatos($paqueteSeleccionado);
@@ -96,6 +97,24 @@ class cambiarEstadoPaqueteController extends Controller
             'id_estado_p' => '3'
         ]);
         return 'Paquete modificado con exito';
+    }
+
+    public function reiniciarEstadosPaquetes(Request $request){
+        $camion = Chofer_Conduce_Camion::withTrashed()->where('id_chofer', $request->post('userId'))->first();
+        if ($camion) {
+            $lotes = Camion_Lleva_Lote::where('matricula', $camion['matricula_camion'])->get();
+            if ($lotes->count() > 0) {
+                foreach ($lotes as $lote) {
+                    $paquetesLote = Paquete_Contiene_Lote::where('id_lote', $lote['id_lote'])->get();
+                    foreach ($paquetesLote as $paqueteLote) {
+                        $datoPaquete = Paquetes::withTrashed()->where('id',$paqueteLote['id_paquete'])->get();
+                        foreach ($datoPaquete as $dato) {
+                            $dato->update(['id_estado_p'=> 2]);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private function validarDatos($request)
