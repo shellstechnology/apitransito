@@ -105,6 +105,7 @@ class transitoController extends Controller
     public function definirPaquete($listaDirecciones, $listaPaquetes)
     {
         $estado = $this->definirEstado($listaPaquetes['estado']);
+        if($estado!="entregado")
         return [
             'Paquete' => $listaPaquetes['nombre'],
             'Estado' => $estado,
